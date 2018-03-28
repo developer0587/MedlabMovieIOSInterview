@@ -492,7 +492,7 @@
 				DEVELOPMENT_TEAM = 47PRAEB93T;
 				INFOPLIST_FILE = MedlabMovieIOSInterview/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shaadi.iphone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ios.MedlabMovieIOSInterview;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c6be59cf-a604-4dda-8055-243d1edd41ea";
 				PROVISIONING_PROFILE_SPECIFIER = "Shaadi Development";
@@ -511,7 +511,7 @@
 				DEVELOPMENT_TEAM = 47PRAEB93T;
 				INFOPLIST_FILE = MedlabMovieIOSInterview/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shaadi.iphone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ios.MedlabMovieIOSInterview;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5bb74c9a-5a0e-4f6d-824d-8773f9a39ae1";
 				PROVISIONING_PROFILE_SPECIFIER = "Shaadi Adhoc";
