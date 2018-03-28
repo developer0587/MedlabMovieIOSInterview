@@ -172,7 +172,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FZl-K1-ywd">
                                                                 <rect key="frame" x="79.5" y="0.0" width="28" height="30"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="un_mark_stars" translatesAutoresizingMaskIntoConstraints="NO" id="ajP-ob-Ldl">
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unmark_stars" translatesAutoresizingMaskIntoConstraints="NO" id="ajP-ob-Ldl">
                                                                         <rect key="frame" x="0.0" y="5" width="20" height="20"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="ajP-ob-Ldl" secondAttribute="height" multiplier="1:1" id="rdf-0t-Hew"/>
@@ -421,6 +421,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="un_mark_stars" width="120" height="120"/>
+        <image name="unmark_stars" width="120" height="120"/>
     </resources>
 </document>

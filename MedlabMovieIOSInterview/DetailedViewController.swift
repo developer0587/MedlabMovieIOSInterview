@@ -49,7 +49,7 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
         self.setupUI()
         
-        self.setupCollectionViews()
+    
         if let viewModel = self.viewModel { self.setupBindings(forViewModel: viewModel) }
         
     }
@@ -80,7 +80,6 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         self.filmRuntimeLabel.apply(style: .filmRating)
         self.filmRatingLabel.apply(style: .filmRating)
         self.filmOverviewLabel.apply(style: .body)
-        
         
     }
     
@@ -123,10 +122,7 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         }
         self.filmTitleLabel.text = filmDetail.fullTitle.uppercased()
         self.filmOverviewLabel.text = filmDetail.overview
-        self.filmRatingImageView.tag=0
-        if self.fetchIdAndCheck(filmDetail: filmDetail) {
-            self.markFavourite()
-        }
+       
     }
     
     public func prePopulate(forFilm film: MovieItemEntity) {
@@ -153,6 +149,10 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
             self?.updateBackdropImageViewHeight(forScrollOffset: contentOffset.element)
             }.addDisposableTo(self.disposeBag)
         
+        self.unMarkFavourite()
+        if self.fetchIdAndCheck(id: viewModel.filmId) {
+            self.markFavourite()
+        }
         
         let gestureFavourite = UITapGestureRecognizer()
         gestureFavourite.rx.event.bindNext{ recognizer in
@@ -170,7 +170,7 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
     func save(id:Int)
     {
         guard self.filmRatingImageView.tag == 0 else {
-            unMarkFavourite()
+            self.unMarkFavourite()
             self.deleteIt(id: id)
             return
         }
@@ -179,16 +179,17 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         user.setValue(id, forKeyPath: "filmid")
         do {
             try getManagedContext().save()
+            self.markFavourite()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
         
     }
     
-    func fetchIdAndCheck(filmDetail: MovieDetailItemEntity)->Bool{
+    func fetchIdAndCheck(id: Int)->Bool{
         let fetchRequest =  NSFetchRequest<NSManagedObject>(entityName: "PopluarEntity")
         do {
-            fetchRequest.predicate = NSPredicate(format: "filmid == %d", filmDetail.id)
+            fetchRequest.predicate = NSPredicate(format: "filmid == %d", id)
             let fetchedResults = try getManagedContext().fetch(fetchRequest)
             
             if fetchedResults.count>0 {
@@ -206,12 +207,13 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         let fetchRequest =  NSFetchRequest<NSManagedObject>(entityName: "PopluarEntity")
         
         do {
-            fetchRequest.predicate = NSPredicate(format: "filmid == %@", id)
+            fetchRequest.predicate = NSPredicate(format: "filmid == %d", id)
             let fetchedResults = try getManagedContext().fetch(fetchRequest)
             if fetchedResults.count>0 {
                 for entity in fetchedResults {
                     getManagedContext().delete(entity)
                 }
+                try getManagedContext().save()
             }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
@@ -223,13 +225,13 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
     }
     
     fileprivate func markFavourite(){
-        filmRatingImageView.image = UIImage(named: "marked_stars")
-        filmRatingImageView.tag = 1
+        self.filmRatingImageView.image = UIImage(named: "marked_stars")
+        self.filmRatingImageView.tag = 1
     }
     
     fileprivate func unMarkFavourite(){
-        filmRatingImageView.image = UIImage(named: "unmark_stars")
-        filmRatingImageView.tag = 0
+        self.filmRatingImageView.image = UIImage(named: "unmark_stars")
+        self.filmRatingImageView.tag = 0
     }
 }
 
