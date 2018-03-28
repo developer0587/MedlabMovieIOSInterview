@@ -10,11 +10,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SDWebImage
+import CoreData
 
 
 // MARK: -
 
-public final class DetailedViewController: UIViewController, ReactiveDisposable {
+public final class DetailedViewController: UIViewController, ReactiveDisposable  {
     
     // MARK: - Properties
     
@@ -80,6 +81,7 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         self.filmRatingLabel.apply(style: .filmRating)
         self.filmOverviewLabel.apply(style: .body)
         
+        
     }
     
     
@@ -121,8 +123,10 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         }
         self.filmTitleLabel.text = filmDetail.fullTitle.uppercased()
         self.filmOverviewLabel.text = filmDetail.overview
-        self.filmRatingImageView.tag = 0
-        self.fetchIdAndCheck(filmDetail: filmDetail)
+        self.filmRatingImageView.tag=0
+        if self.fetchIdAndCheck(filmDetail: filmDetail) {
+            self.markFavourite()
+        }
     }
     
     public func prePopulate(forFilm film: MovieItemEntity) {
@@ -152,7 +156,7 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         
         let gestureFavourite = UITapGestureRecognizer()
         gestureFavourite.rx.event.bindNext{ recognizer in
-            self.markUnmarkFavourites(id: viewModel.filmId)
+                self.save(id: viewModel.filmId)
             }.addDisposableTo(self.disposeBag)
         
         self.markFav.addGestureRecognizer(gestureFavourite)
@@ -163,7 +167,72 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
         
     }
     
+    func save(id:Int)
+    {
+        guard self.filmRatingImageView.tag == 0 else {
+            unMarkFavourite()
+            self.deleteIt(id: id)
+            return
+        }
+        let idEntity = NSEntityDescription.entity(forEntityName: "PopluarEntity", in: getManagedContext())!
+        let user = NSManagedObject(entity: idEntity, insertInto: getManagedContext())
+        user.setValue(id, forKeyPath: "filmid")
+        do {
+            try getManagedContext().save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+        
+    }
+    
+    func fetchIdAndCheck(filmDetail: MovieDetailItemEntity)->Bool{
+        let fetchRequest =  NSFetchRequest<NSManagedObject>(entityName: "PopluarEntity")
+        do {
+            fetchRequest.predicate = NSPredicate(format: "filmid == %d", filmDetail.id)
+            let fetchedResults = try getManagedContext().fetch(fetchRequest)
+            
+            if fetchedResults.count>0 {
+                print("found PopluarEntity")
+                return true
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return false
+    }
+    
+    func deleteIt(id: Int) {
+        
+        let fetchRequest =  NSFetchRequest<NSManagedObject>(entityName: "PopluarEntity")
+        
+        do {
+            fetchRequest.predicate = NSPredicate(format: "filmid == %@", id)
+            let fetchedResults = try getManagedContext().fetch(fetchRequest)
+            if fetchedResults.count>0 {
+                for entity in fetchedResults {
+                    getManagedContext().delete(entity)
+                }
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    fileprivate func getManagedContext()->NSManagedObjectContext{
+        return ((UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext)!
+    }
+    
+    fileprivate func markFavourite(){
+        filmRatingImageView.image = UIImage(named: "marked_stars")
+        filmRatingImageView.tag = 1
+    }
+    
+    fileprivate func unMarkFavourite(){
+        filmRatingImageView.image = UIImage(named: "unmark_stars")
+        filmRatingImageView.tag = 0
+    }
 }
+
 
 
 
