@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftyJSON
-import CoreData
 
 public class MovieItemEntity: NSObject, JSONInitializable {
     

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SDWebImage
-import CoreData
+
 
 // MARK: -
 
@@ -55,7 +55,7 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print ("hi")
+        
     }
     
     override public func viewDidLayoutSubviews() {
@@ -165,77 +165,6 @@ public final class DetailedViewController: UIViewController, ReactiveDisposable 
     
 }
 
-extension DetailedViewController {
-    
-    fileprivate func markUnmarkFavourites(id: Int) {
-        guard self.filmRatingImageView.tag == 0 else {
-            unMarkFavourite()
-            self.deleteIt(id: id)
-            return
-        }
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let idEntity = NSEntityDescription.entity(forEntityName: "MovieEntity", in: managedContext)!
-        let user = NSManagedObject(entity: idEntity, insertInto: managedContext)
-        user.setValue("\(id)", forKeyPath: "filmid")
-        do {
-            try managedContext.save()
-            self.markFavourite()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-        
-    }
-    
-    fileprivate func fetchIdAndCheck(filmDetail: MovieDetailItemEntity){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest =  NSFetchRequest<NSManagedObject>(entityName: "MovieEntity")
-        
-        do {
-            fetchRequest.predicate = NSPredicate(format: "filmid == %@", "\(filmDetail.id)")
-            let fetchedResults = try managedContext.fetch(fetchRequest)
-            
-            if fetchedResults.count>0 {
-                self.markFavourite()
-            }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
-    
-    fileprivate func deleteIt(id: Int) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest =  NSFetchRequest<NSManagedObject>(entityName: "MovieEntity")
-        
-        do {
-            fetchRequest.predicate = NSPredicate(format: "filmid == %@", "\(id)")
-            let fetchedResults = try managedContext.fetch(fetchRequest)
-            
-            if fetchedResults.count>0 {
-                
-                for entity in fetchedResults {
-                    
-                    managedContext.delete(entity)
-                }
-            }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
-    
-    fileprivate func markFavourite(){
-        filmRatingImageView.image = UIImage(named: "yellow_stars")
-        filmRatingImageView.tag = 1
-    }
-    
-    fileprivate func unMarkFavourite(){
-        filmRatingImageView.image = UIImage(named: "grey_stars")
-        filmRatingImageView.tag = 0
-    }
-    
-}
+
 
 

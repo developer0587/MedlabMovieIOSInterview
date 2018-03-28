@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zlZ-tq-vji">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -14,7 +14,7 @@
         <!--View Controller-->
         <scene sceneID="BMg-KI-vhD">
             <objects>
-                <viewController id="fQc-Yg-QaL" customClass="ViewController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="fQc-Yg-QaL" customClass="ViewController" customModule="MedlabMovieIOSInterview" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OOG-dB-tFV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -53,7 +53,7 @@
                     <connections>
                         <outlet property="collectionView" destination="Q8t-86-X2I" id="kNF-4q-114"/>
                         <outlet property="placeholderView" destination="OOG-dB-tFV" id="dk2-Al-FSE"/>
-                        <segue destination="utj-lR-QFl" kind="custom" identifier="DetailedViewControllerSeque" customClass="PushDetailViewSequeHandler" customModule="Sample" id="XoD-ee-bHJ"/>
+                        <segue destination="utj-lR-QFl" kind="custom" identifier="DetailedViewControllerSeque" customClass="PushDetailViewSequeHandler" customModule="MedlabMovieIOSInterview" customModuleProvider="target" id="XKL-tr-qeH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iaQ-lV-iDv" sceneMemberID="firstResponder"/>
@@ -79,7 +79,7 @@
         <!--Detailed View Controller-->
         <scene sceneID="bP0-U3-tbj">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="utj-lR-QFl" customClass="DetailedViewController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="utj-lR-QFl" customClass="DetailedViewController" customModule="MedlabMovieIOSInterview" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="u4X-YH-QPQ"/>
                         <viewControllerLayoutGuide type="bottom" id="uf4-1Y-LQa"/>
@@ -133,7 +133,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vt8-gu-Sfo">
                                                                 <rect key="frame" x="76" y="0.0" width="36" height="30"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Time_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ovz-e5-1AA">
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ovz-e5-1AA">
                                                                         <rect key="frame" x="0.0" y="5" width="20" height="20"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="ovz-e5-1AA" secondAttribute="height" multiplier="1:1" id="sXM-5R-1Uq"/>
@@ -172,7 +172,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FZl-K1-ywd">
                                                                 <rect key="frame" x="79.5" y="0.0" width="28" height="30"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grey_stars" translatesAutoresizingMaskIntoConstraints="NO" id="ajP-ob-Ldl">
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="un_mark_stars" translatesAutoresizingMaskIntoConstraints="NO" id="ajP-ob-Ldl">
                                                                         <rect key="frame" x="0.0" y="5" width="20" height="20"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="ajP-ob-Ldl" secondAttribute="height" multiplier="1:1" id="rdf-0t-Hew"/>
@@ -413,17 +413,14 @@
                         <outlet property="filmTitleLabel" destination="8vl-No-oIh" id="5rG-cf-e6O"/>
                         <outlet property="markFav" destination="FZl-K1-ywd" id="Rm2-Do-qFw"/>
                         <outlet property="scrollView" destination="nS7-oM-bRb" id="Xiw-gW-gnT"/>
-                        <segue destination="fAh-NV-vc4" kind="unwind" identifier="PopFilmDetailSegueIdentifier" customClass="PopFilmDetailsSegue" customModule="WhatFilm" unwindAction="unwindToFeaturedViewControllerWithSender:" id="H6M-Wu-oFR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XEA-9N-r86" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="fAh-NV-vc4" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2181.5999999999999" y="-72.413793103448285"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Time_Icon" width="16" height="16"/>
-        <image name="grey_stars" width="16" height="16"/>
+        <image name="un_mark_stars" width="120" height="120"/>
     </resources>
 </document>
