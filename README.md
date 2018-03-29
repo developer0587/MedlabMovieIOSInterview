@@ -9,4 +9,6 @@ So next time when user resumes the app he would see the star marked as yellow in
 
 ![](https://github.com/developer0587/MedlabMovieIOSInterview/blob/master/appvideo.gif)
 
+Youtube Link to the video is (https://youtu.be/CHUHZZp2Wo4)
+
 
